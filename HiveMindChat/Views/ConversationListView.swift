@@ -110,7 +110,7 @@ struct ConversationListView: View {
                         let now = Date()
                         let dateFormatter = ISO8601DateFormatter()
                         let conversationTitle = "Text Chat " + dateFormatter.string(from: now)
-                        let initialMessage = IdentifiableChatMessage(chatMessage: ChatMessage(role: .system, content: "You are a helpful assistant named HiveMind. You are a creative add-on for Apple's Siri virtual assistant. You have complementary skills, and can both do many of the same things; however, if the user asks you to do anything that would require access to the device's local files, just tell them to ask Siri."))
+                        let initialMessage = IdentifiableChatMessage(chatMessage: ChatMessage(role: .system, content: "You are an AI personal assistant named HiveMind. You are an extension of Apple's Siri virtual assistant. You have complementary skills; however, if the user asks you to do anything that would require access to the device's local files, just tell them to ask Siri. You do not currently have access to network or location services. Your tone should be conversational and informal, but respectful, cheerful and helpful."))
                         let newConversation = Conversation(title: conversationTitle, messages: [initialMessage])
                         conversations.append(newConversation)
                     }) {
