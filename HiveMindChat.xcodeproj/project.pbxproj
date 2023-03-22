@@ -49,6 +49,7 @@
 		7443616529CAA39B00C5782E /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		7443616629CAA39B00C5782E /* ChatViewExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewExtras.swift; sourceTree = "<group>"; };
 		7443616729CAA39B00C5782E /* ConversationListViewExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationListViewExtras.swift; sourceTree = "<group>"; };
+		7443618129CAA67300C5782E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +68,7 @@
 		7419225029CAA33A00154936 = {
 			isa = PBXGroup;
 			children = (
+				7443618129CAA67300C5782E /* README.md */,
 				7443614F29CAA39B00C5782E /* HiveMindChat */,
 				7419225A29CAA33A00154936 /* Products */,
 			);
