@@ -83,7 +83,7 @@ struct ChatView: View {
             }
             
             HStack {
-                CustomTextField(text: $messageInput, placeholder: "SiriGPT(model: \"gpt-3.5-turbo\")", onCommit: {
+                CustomTextField(text: $messageInput, placeholder: "HiveMind(model: \"gpt-3.5-turbo\")", onCommit: {
                     sendMessage()
                 })
                 .background(GeometryReader { geometry in
