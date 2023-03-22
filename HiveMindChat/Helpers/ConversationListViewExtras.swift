@@ -63,7 +63,7 @@ extension ConversationListView {
         
         func makeBody(configuration: Configuration) -> some View {
             configuration.label
-                .foregroundColor(isFavorite ? .yellow : .gray)
+                .foregroundColor(isFavorite ? Color(.systemBlue) : Color(.systemGray))
                 .opacity(configuration.isPressed ? 0.5 : 1.0)
                 .scaleEffect(configuration.isPressed ? 0.8 : 1.0)
         }
