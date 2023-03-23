@@ -4,6 +4,7 @@ import SwiftUI
 import OpenAISwift
 
 struct ChatMessageView: View {
+    @Environment(\.colorScheme) var colorScheme
     let message: ChatMessage
     
     var body: some View {
@@ -12,7 +13,7 @@ struct ChatMessageView: View {
                 Text(removeLeadingNewlines(from: message.content)) // Remove leading newlines
                     .font(.system(size: 16))
                     .padding(10)
-                    .background(Color(.systemGray))
+                    .background(colorScheme == .dark ? Color(.systemGray6) : Color(.systemGray))
                     .foregroundColor(.white)
                     .cornerRadius(10)
                 Spacer()

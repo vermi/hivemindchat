@@ -19,7 +19,7 @@ struct CustomTextField: UIViewRepresentable {
         textView.isScrollEnabled = true
         textView.alwaysBounceVertical = false
         textView.font = UIFont.systemFont(ofSize: 16)
-        textView.backgroundColor = UIColor.systemGray6
+        textView.backgroundColor = UIColor.systemBackground
         textView.textContainerInset = UIEdgeInsets(top: 12, left: 4, bottom: 12, right: 4) // Update this line
         textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // Update this line
         

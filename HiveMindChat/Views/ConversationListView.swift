@@ -25,7 +25,7 @@ struct ConversationListView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 if conversations.isEmpty {
                     Text("No conversations yet. Why not start one?")
@@ -97,6 +97,8 @@ struct ConversationListView: View {
             }
             .listStyle(PlainListStyle())
             .navigationTitle("Conversations")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: {
@@ -121,6 +123,8 @@ struct ConversationListView: View {
                     EditButton()
                 }
             }
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
         }
     }
 }

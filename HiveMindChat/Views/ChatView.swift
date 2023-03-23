@@ -69,10 +69,10 @@ struct ChatView: View {
                                     }
                                 }
                         }
-                    }
+                    }.listRowSeparator(.hidden)
                     .padding(.top, 8) // Add padding to the top of the message list
                     .padding(.bottom, messageInputHeight + 16)
-                    .background(Color(.systemGray6)) // Set the background color of the message list
+                    .background(Color(.systemBackground)) // Set the background color of the message list
                 }.onReceive(scrollPublisher, perform: { _ in
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                         withAnimation {
@@ -86,9 +86,6 @@ struct ChatView: View {
                 CustomTextField(text: $messageInput, placeholder: "HiveMind(model: \"gpt-3.5-turbo\")", onCommit: {
                     sendMessage()
                 })
-                .background(GeometryReader { geometry in
-                    Color.clear.preference(key: ViewHeightKey.self, value: geometry.size.height)
-                })
                 .onPreferenceChange(ViewHeightKey.self) { height in
                     withAnimation {
                         messageInputHeight = height >= 40 ? height : 40
@@ -101,7 +98,9 @@ struct ChatView: View {
                 .disabled(!isInitialAssistantResponseFetched)
             }.padding(.bottom)
         }
-        .background(Color(.systemGray6))
+        .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .background(Color(.systemBackground))
         .onAppear {
             loadChatHistory()
             if !isInitialAssistantResponseFetched && !conversations[selectedConversationIndex].messages.contains(where: { $0.chatMessage.role == .assistant }) {
