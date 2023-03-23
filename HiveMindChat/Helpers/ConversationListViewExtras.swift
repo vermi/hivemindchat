@@ -4,11 +4,12 @@ import KeychainSwift
 
 extension ConversationListView {
     func deleteConversation(at offsets: IndexSet) {
-        conversations.remove(atOffsets: offsets)
+        let originalOffsets = offsets.map { indexedSortedConversations[$0].index }
+        conversations.remove(atOffsets: IndexSet(originalOffsets))
         DataManager.shared.saveConversationHistory(conversations)
-
+        
         if let selectedConversationIndex = selectedConversationIndex,
-           offsets.contains(selectedConversationIndex) {
+           originalOffsets.contains(selectedConversationIndex) {
             // Clear selectedConversationIndex if the selected conversation is deleted
             self.selectedConversationIndex = nil
         }
