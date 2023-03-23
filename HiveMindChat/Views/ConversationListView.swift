@@ -116,9 +116,6 @@ struct ConversationListView: View {
                         Image(systemName: "plus")
                     }
                 }
-                ToolbarItem(placement: .navigationBarLeading) {
-                    EditButton()
-                }
             }
             .toolbarBackground(Color(.systemBackground), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
