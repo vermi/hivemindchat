@@ -9,19 +9,16 @@ struct ConversationListView: View {
     @State var isAPITokenAlertPresented: Bool = false
     @State var editedConversationIndex: Int?
     
-    private var indexedSortedConversations: [(index: Int, conversation: Conversation)] {
-        let sortedConversations = conversations.sorted { left, right in
-            if left.isFavorite != right.isFavorite {
-                return left.isFavorite
-            } else if left.timestamp != right.timestamp {
-                return left.timestamp > right.timestamp
+    var indexedSortedConversations: [(index: Int, conversation: Conversation)] {
+        let sortedConversations = conversations.enumerated().sorted { left, right in
+            if left.element.isFavorite != right.element.isFavorite {
+                return left.element.isFavorite
+            } else if left.element.timestamp != right.element.timestamp {
+                return left.element.timestamp > right.element.timestamp
             }
-            return left.id < right.id
+            return left.offset < right.offset
         }
-        return sortedConversations.enumerated().map { (index, conversation) in
-            let originalIndex = conversations.firstIndex(where: { $0.id == conversation.id })!
-            return (index: originalIndex, conversation: conversation)
-        }
+        return sortedConversations.map { ($0.offset, $0.element) }
     }
     
     var body: some View {
