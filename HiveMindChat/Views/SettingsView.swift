@@ -26,19 +26,17 @@ struct SettingsView: View {
                                 openAIAPIToken = keychain.get("openAIAPIToken") ?? ""
                             }
                     }
-                    Section(header: Text("User Information")) {
+                    Section(header: Text("Form of Address")) {
                         TextField("Name", text: $userName)
                             .disableAutocorrection(true)
                             .autocapitalization(.words)
-                            .onSubmit {
-                                UserDefaults.standard.setValue(userName, forKey: "userName")
-                            }
                     }
                 }
                 .background(Color(.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
                 .navigationTitle("Settings")
                 .navigationBarItems(trailing: Button("Save") {
                     saveAPIToken()
+                    UserDefaults.standard.setValue(userName, forKey: "userName")
                     dismiss()
                 })
             }
