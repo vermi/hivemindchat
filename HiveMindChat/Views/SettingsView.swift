@@ -9,6 +9,7 @@ struct SettingsView: View {
     
     @State private var openAIAPIToken: String = ""
     @State private var keychain = KeychainSwift()
+    @State private var userName: String = UserDefaults.standard.string(forKey: "userName") ?? "User"
 
     var body: some View {
         VStack {
@@ -23,6 +24,14 @@ struct SettingsView: View {
                         TextField("Enter your OpenAI API token", text: $openAIAPIToken)
                             .onAppear {
                                 openAIAPIToken = keychain.get("openAIAPIToken") ?? ""
+                            }
+                    }
+                    Section(header: Text("User Information")) {
+                        TextField("Name", text: $userName)
+                            .disableAutocorrection(true)
+                            .autocapitalization(.words)
+                            .onSubmit {
+                                UserDefaults.standard.setValue(userName, forKey: "userName")
                             }
                     }
                 }

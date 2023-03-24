@@ -16,6 +16,14 @@ extension ChatView {
         }
     }
     
+    func safeMessages() -> [IdentifiableChatMessage] {
+        if selectedConversationIndex >= 0 && selectedConversationIndex < conversations.count {
+            return conversations[selectedConversationIndex].messages
+        } else {
+            return []
+        }
+    }
+    
     func sendMessage() {
         let userMessage = ChatMessage(role: .user, content: messageInput)
         conversations[selectedConversationIndex].messages.append(IdentifiableChatMessage(chatMessage: userMessage))

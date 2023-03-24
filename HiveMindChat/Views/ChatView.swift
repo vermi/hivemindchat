@@ -35,80 +35,83 @@ struct ChatView: View {
             ScrollViewReader { scrollViewProxy in
                 ScrollView {
                     LazyVStack(spacing: 8) { // Add spacing between messages
-                        ForEach(conversations[selectedConversationIndex].messages) { identifiableChatMessage in
+                        ForEach(0..<safeMessages().count, id: \.self) { index in
+                            let identifiableChatMessage = safeMessages()[index]
                             ChatMessageView(message: identifiableChatMessage.chatMessage)
                                 .contextMenu {
-                                    Button(action: {
-                                        UIPasteboard.general.string = identifiableChatMessage.chatMessage.content
-                                    }) {
-                                        Text("Copy")
-                                        Image(systemName: "doc.on.doc")
-                                    }
-                                    Button(action: {
-                                        conversations[selectedConversationIndex].messages.removeAll()
-                                        DataManager.shared.saveConversationHistory(conversations)
-                                    }) {
-                                        Text("Clear History")
-                                        Image(systemName: "trash")
-                                    }
-                                    Button(action: {
-                                        let conversationTitle = conversations[selectedConversationIndex].title
-                                        guard let image = captureConversationAsImage(),
-                                              let imageURL = saveImageToTemporaryFile(image: image, title: conversationTitle) else { return }
-                                        
-                                        let itemProvider = NSItemProvider(contentsOf: imageURL)
-                                        let activityViewController = UIActivityViewController(activityItems: [itemProvider as Any], applicationActivities: nil)
-                                        
-                                        if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-                                           let viewController = scene.windows.first?.rootViewController {
-                                            viewController.present(activityViewController, animated: true, completion: nil)
+                                        Button(action: {
+                                            UIPasteboard.general.string = identifiableChatMessage.chatMessage.content
+                                        }) {
+                                            Text("Copy")
+                                            Image(systemName: "doc.on.doc")
                                         }
-                                    }) {
-                                        Text("Share as Image")
-                                        Image(systemName: "square.and.arrow.up")
+                                        Button(action: {
+                                            conversations[selectedConversationIndex].messages.removeAll()
+                                            DataManager.shared.saveConversationHistory(conversations)
+                                        }) {
+                                            Text("Clear History")
+                                            Image(systemName: "trash")
+                                        }
+                                        Button(action: {
+                                            let conversationTitle = conversations[selectedConversationIndex].title
+                                            guard let image = captureConversationAsImage(),
+                                                  let imageURL = saveImageToTemporaryFile(image: image, title: conversationTitle) else { return }
+                                            
+                                            let itemProvider = NSItemProvider(contentsOf: imageURL)
+                                            let activityViewController = UIActivityViewController(activityItems: [itemProvider as Any], applicationActivities: nil)
+                                            
+                                            if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+                                               let viewController = scene.windows.first?.rootViewController {
+                                                viewController.present(activityViewController, animated: true, completion: nil)
+                                            }
+                                        }) {
+                                            Text("Share as Image")
+                                            Image(systemName: "square.and.arrow.up")
+                                        }
                                     }
-                                }
+                            }
+                        }.listRowSeparator(.hidden)
+                            .padding(.top, 8) // Add padding to the top of the message list
+                            .padding(.bottom, messageInputHeight + 16)
+                            .background(Color(.systemBackground)) // Set the background color of the message list
+                    }.onReceive(scrollPublisher, perform: { _ in
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                            withAnimation {
+                                scrollViewProxy.scrollTo(conversations[selectedConversationIndex].messages.last?.id, anchor: .bottom)
+                            }
                         }
-                    }.listRowSeparator(.hidden)
-                    .padding(.top, 8) // Add padding to the top of the message list
-                    .padding(.bottom, messageInputHeight + 16)
-                    .background(Color(.systemBackground)) // Set the background color of the message list
-                }.onReceive(scrollPublisher, perform: { _ in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    })
+                }
+                
+                HStack {
+                    CustomTextField(text: $messageInput, placeholder: "HiveMind(model: \"gpt-3.5-turbo\")", onCommit: {
+                        sendMessage()
+                    })
+                    .onPreferenceChange(ViewHeightKey.self) { height in
                         withAnimation {
-                            scrollViewProxy.scrollTo(conversations[selectedConversationIndex].messages.last?.id, anchor: .bottom)
+                            messageInputHeight = height >= 40 ? height : 40
                         }
                     }
-                })
+                    .frame(height: messageInputHeight) // Update the frame
+                    .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
+                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
+                    .padding(.horizontal)
+                    .disabled(!isInitialAssistantResponseFetched)
+                }.padding(.bottom)
             }
-            
-            HStack {
-                CustomTextField(text: $messageInput, placeholder: "HiveMind(model: \"gpt-3.5-turbo\")", onCommit: {
-                    sendMessage()
-                })
-                .onPreferenceChange(ViewHeightKey.self) { height in
-                    withAnimation {
-                        messageInputHeight = height >= 40 ? height : 40
+            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .background(Color(.systemBackground))
+            .onAppear {
+                DispatchQueue.main.async {
+                    loadChatHistory()
+                    if !isInitialAssistantResponseFetched && !conversations[selectedConversationIndex].messages.contains(where: { $0.chatMessage.role == .assistant }) {
+                        fetchInitialAssistantResponse()
+                    } else {
+                        isInitialAssistantResponseFetched = true
+                        isTypingIndicatorVisible = false
                     }
                 }
-                .frame(height: messageInputHeight) // Update the frame
-                .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
-                .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                .padding(.horizontal)
-                .disabled(!isInitialAssistantResponseFetched)
-            }.padding(.bottom)
-        }
-        .toolbarBackground(Color(.systemBackground), for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
-        .background(Color(.systemBackground))
-        .onAppear {
-            loadChatHistory()
-            if !isInitialAssistantResponseFetched && !conversations[selectedConversationIndex].messages.contains(where: { $0.chatMessage.role == .assistant }) {
-                fetchInitialAssistantResponse()
-            } else {
-                isInitialAssistantResponseFetched = true
-                isTypingIndicatorVisible = false
             }
         }
     }
-}

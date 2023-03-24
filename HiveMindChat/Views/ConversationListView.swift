@@ -78,6 +78,7 @@ struct ConversationListView: View {
                 }
                 
             }
+            .id(UUID())
             .alert(isPresented: $isAPITokenAlertPresented) {
                 Alert(
                     title: Text("OpenAI API Token Required"),
@@ -109,9 +110,15 @@ struct ConversationListView: View {
                         let now = Date()
                         let dateFormatter = ISO8601DateFormatter()
                         let conversationTitle = "Text Chat " + dateFormatter.string(from: now)
-                        let initialMessage = IdentifiableChatMessage(chatMessage: ChatMessage(role: .system, content: "You are an AI personal assistant named HiveMind. You are an extension of Apple's Siri virtual assistant. You have complementary skills; however, if the user asks you to do anything that would require access to the device's local files, just tell them to ask Siri. You do not currently have access to network or location services. Your tone should be conversational and informal, but respectful, cheerful and helpful."))
+                        let userName = getUserName()
+                        let initialMessage = IdentifiableChatMessage(chatMessage: ChatMessage(role: .system, content: "You are an AI personal assistant named HiveMind, designed to complement Apple's Siri virtual assistant by filling in gaps in Siri's knowledge. Your main role is to provide ideas, suggestions, and information to the user. You do not have the ability to access the device's local files, send messages, set reminders, or interact with network or location services. If the user requests any of these actions, kindly direct them to ask Siri instead. Your tone should be conversational, informal, respectful, cheerful, and helpful, focusing on providing insightful and creative assistance as an 'idea man' and entourage to the user. The user has indicated that they would like to be addressed as \(userName). Your first message to the user should greet them by name, and try not to be too verbose when explaining your purpose and functionality. Think 'elevator pitch.'"))
                         let newConversation = Conversation(title: conversationTitle, messages: [initialMessage])
-                        conversations.append(newConversation)
+                        withAnimation {
+                            conversations.append(newConversation)
+                            DispatchQueue.main.async {
+                                    selectedConversationIndex = conversations.count - 1
+                                }
+                        }
                     }) {
                         Image(systemName: "plus")
                     }

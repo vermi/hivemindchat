@@ -19,6 +19,14 @@ extension ConversationListView {
         conversations = DataManager.shared.loadConversationHistory()
     }
     
+    func getUserName() -> String {
+        if let userName = UserDefaults.standard.string(forKey: "userName") {
+            return userName
+        } else {
+            return "User"
+        }
+    }
+    
     func presentEditConversationTitleAlert(conversation: Binding<Conversation>) {
         let alertController = UIAlertController(title: "Edit Conversation Title", message: "Enter a new title for this conversation.", preferredStyle: .alert)
         alertController.addTextField { textField in
