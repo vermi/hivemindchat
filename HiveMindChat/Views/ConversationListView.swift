@@ -44,6 +44,7 @@ struct ConversationListView: View {
                                 ConversationRow(conversation: conversation)
                             }
                         }
+                        .listRowSeparator(.hidden)
                         .onChange(of: editedConversationIndex) { index in
                             if let index = index {
                                 conversations[index].objectWillChange.send()
