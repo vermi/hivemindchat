@@ -67,6 +67,7 @@ extension ChatView {
         }
         
         let containerView = UIView()
+        containerView.backgroundColor = UIColor.systemBackground
         containerView.addSubview(stackView)
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
