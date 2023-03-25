@@ -48,6 +48,7 @@
 		7443616629CAA39B00C5782E /* ChatViewExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewExtras.swift; sourceTree = "<group>"; };
 		7443616729CAA39B00C5782E /* ConversationListViewExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationListViewExtras.swift; sourceTree = "<group>"; };
 		7443618129CAA67300C5782E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		74C525A029CF79B1005C959C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +84,7 @@
 		7443614F29CAA39B00C5782E /* HiveMindChat */ = {
 			isa = PBXGroup;
 			children = (
+				74C525A029CF79B1005C959C /* Info.plist */,
 				7443615729CAA39B00C5782E /* HiveMindChatApp.swift */,
 				7443615029CAA39B00C5782E /* Assets.xcassets */,
 				7443615829CAA39B00C5782E /* Controllers */,
@@ -360,6 +362,7 @@
 				DEVELOPMENT_TEAM = FJ646T5UTF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HiveMindChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -389,6 +392,7 @@
 				DEVELOPMENT_TEAM = FJ646T5UTF;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HiveMindChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
