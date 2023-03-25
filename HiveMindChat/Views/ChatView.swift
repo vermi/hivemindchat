@@ -85,20 +85,22 @@ struct ChatView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    let conversationTitle = conversations[selectedConversationIndex].title
-                    guard let image = captureConversationAsImage(),
-                          let imageURL = saveImageToTemporaryFile(image: image, title: conversationTitle) else { return }
-                    
-                    let itemProvider = NSItemProvider(contentsOf: imageURL)
-                    let activityViewController = UIActivityViewController(activityItems: [itemProvider as Any], applicationActivities: nil)
-                    
-                    if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-                       let viewController = scene.windows.first?.rootViewController {
-                        viewController.present(activityViewController, animated: true, completion: nil)
-                    }
-                }) {
+                Button(action: {}) {
                     Image(systemName: "square.and.arrow.up")
+                }
+                .contextMenu {
+                    Button(action: {
+                        shareConversationAsImage()
+                    }) {
+                        Text("Share as Image")
+                        Image(systemName: "photo")
+                    }
+                    Button(action: {
+                        shareConversationAsJSON()
+                    }) {
+                        Text("Share as JSON")
+                        Image(systemName: "doc.text")
+                    }
                 }
             }
         }

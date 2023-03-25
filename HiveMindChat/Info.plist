@@ -6,5 +6,27 @@
 	<false/>
 	<key>LSMinimumSystemVersion</key>
 	<string>13.0</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeIdentifier</key>
+			<string>com.afakecompany.hivemind</string>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>HiveMind File</string>
+			<key>UTTypeIconFiles</key>
+			<array>
+				<string>AppIcon</string>
+			</array>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>hivemind</string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -3,14 +3,14 @@ import OpenAISwift
 import KeychainSwift
 
 struct ConversationListView: View {
-    @Binding var conversations: [Conversation]
+    @StateObject var viewModel: ConversationListViewModel
     @State var selectedConversationIndex: Int?
     @State var keychain = KeychainSwift()
     @State var isAPITokenAlertPresented: Bool = false
     @State var editedConversationIndex: Int?
     
     var indexedSortedConversations: [(index: Int, conversation: Conversation)] {
-        let sortedConversations = conversations.enumerated().sorted { left, right in
+        let sortedConversations = viewModel.conversations.enumerated().sorted { left, right in
             if left.element.isFavorite != right.element.isFavorite {
                 return left.element.isFavorite
             } else if left.element.timestamp != right.element.timestamp {
@@ -24,17 +24,17 @@ struct ConversationListView: View {
     var body: some View {
         NavigationStack {
             List {
-                if conversations.isEmpty {
+                if viewModel.conversations.isEmpty {
                     Text("No conversations yet. Why not start one?")
                 } else {
                     ForEach(indexedSortedConversations, id: \.conversation.id) { indexedConversation in
                         let originalIndex = indexedConversation.index
                         let conversation = indexedConversation.conversation
-                        NavigationLink(destination: ChatView(conversations: $conversations, selectedConversationIndex: originalIndex)) {
+                        NavigationLink(destination: ChatView(conversations: $viewModel.conversations, selectedConversationIndex: originalIndex)) {
                             HStack {
                                 Button(action: {
-                                    conversations[originalIndex].isFavorite.toggle()
-                                    DataManager.shared.saveConversationHistory(conversations)
+                                    viewModel.conversations[originalIndex].isFavorite.toggle()
+                                    DataManager.shared.saveConversationHistory(viewModel.conversations)
                                     loadConversationHistory()
                                 }) {
                                     Image(systemName: conversation.isFavorite ? "star.fill" : "star")
@@ -47,14 +47,14 @@ struct ConversationListView: View {
                         .listRowSeparator(.hidden)
                         .onChange(of: editedConversationIndex) { index in
                             if let index = index {
-                                conversations[index].objectWillChange.send()
-                                DataManager.shared.saveConversationHistory(conversations)
+                                viewModel.conversations[index].objectWillChange.send()
+                                DataManager.shared.saveConversationHistory(viewModel.conversations)
                             }
                         }
                         .tag(originalIndex)
                         .contextMenu {
                             Button(action: {
-                                presentEditConversationTitleAlert(conversation: $conversations[originalIndex])
+                                presentEditConversationTitleAlert(conversation: $viewModel.conversations[originalIndex])
                             }) {
                                 Text("Edit Title")
                                 Image(systemName: "pencil")
@@ -67,14 +67,14 @@ struct ConversationListView: View {
                     }
                     .onDelete(perform: deleteConversation)
                     .onMove(perform: { indices, newOffset in
-                        conversations.move(fromOffsets: indices, toOffset: newOffset)
+                        viewModel.conversations.move(fromOffsets: indices, toOffset: newOffset)
                         if let selectedConversationIndex = selectedConversationIndex,
                            indices.contains(selectedConversationIndex) {
                             // Update selectedConversationIndex if the selected conversation is moved
                             let newSelectedIndex = selectedConversationIndex - indices.count + newOffset
                             self.selectedConversationIndex = newSelectedIndex
                         }
-                        DataManager.shared.saveConversationHistory(conversations)
+                        DataManager.shared.saveConversationHistory(viewModel.conversations)
                     })
                 }
                 
@@ -107,23 +107,22 @@ struct ConversationListView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        let now = Date()
-                        let dateFormatter = ISO8601DateFormatter()
-                        let conversationTitle = "Text Chat " + dateFormatter.string(from: now)
-                        let userName = getUserName()
-                        let initialMessage = IdentifiableChatMessage(chatMessage: ChatMessage(role: .system, content: "You are HiveMind, an AI personal assistant designed to complement Siri by providing ideas, suggestions, and information where Siri's knowledge might fall short. You cannot access device files, send messages, set reminders, or interact with network or location services. If asked, kindly direct the user to Siri. Maintain a conversational, informal, respectful, cheerful, and helpful tone, prioritizing insightful and creative assistance. Address the user as \(userName) and greet them by name in your first message. Briefly explain your purpose and functionality without being overly verbose."
-                                                                                              
-))
-                        let newConversation = Conversation(title: conversationTitle, messages: [initialMessage])
-                        withAnimation {
-                            conversations.append(newConversation)
-                            DispatchQueue.main.async {
-                                    selectedConversationIndex = conversations.count - 1
-                                }
-                        }
-                    }) {
+                    Button(action: {}) {
                         Image(systemName: "plus")
+                    }
+                    .contextMenu {
+                        Button(action: {
+                            createNewConversation()
+                        }) {
+                            Text("New Conversation")
+                            Image(systemName: "square.and.pencil")
+                        }
+                        Button(action: {
+                            importConversationFromJSON()
+                        }) {
+                            Text("Import from JSON")
+                            Image(systemName: "square.and.arrow.down")
+                        }
                     }
                 }
             }
