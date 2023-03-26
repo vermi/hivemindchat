@@ -12,9 +12,9 @@ HiveMindChat is an iOS app that provides a GUI interface for OpenAI's chat compl
 
 ## Requirements
 
-- Xcode 12 or later
-- Swift 5.3 or later
-- iOS 14 or later
+- Xcode 14.2 or later
+- Swift 5.7 or later
+- iOS 16 or later
 
 ## Installation
 

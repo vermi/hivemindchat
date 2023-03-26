@@ -23,20 +23,34 @@ class ConversationListViewModel: NSObject, ObservableObject, UIDocumentPickerDel
 
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else { return }
-
+        
+        print("Picked document at URL: \(url)")
+        
+        // Start accessing the security-scoped resource
+        guard url.startAccessingSecurityScopedResource() else {
+            print("Could not start accessing security scoped resource")
+            return
+        }
+        
         do {
             let jsonData = try Data(contentsOf: url)
             let importedConversation = try JSONDecoder().decode(Conversation.self, from: jsonData)
-
+            
             DispatchQueue.main.async {
                 withAnimation {
                     self.conversations.append(importedConversation)
                 }
                 DataManager.shared.saveConversationHistory(self.conversations)
             }
+            
+            print("Imported conversation: \(importedConversation)")
+            print("Current conversations: \(self.conversations)")
         } catch {
             print("Error importing conversation from JSON: \(error)")
         }
+        
+        // Stop accessing the security-scoped resource
+        url.stopAccessingSecurityScopedResource()
     }
     
     func shareConversationAsJSON(selectedConversationIndex: Int) {
@@ -46,10 +60,7 @@ class ConversationListViewModel: NSObject, ObservableObject, UIDocumentPickerDel
             let jsonData = try JSONEncoder().encode(conversation)
             let jsonString = String(data: jsonData, encoding: .utf8)
             guard let jsonFileURL = saveJSONStringToTemporaryFile(jsonString: jsonString, title: conversation.title) else { return }
-            
-            let itemProvider = NSItemProvider(contentsOf: jsonFileURL)
-            let activityViewController = UIActivityViewController(activityItems: [itemProvider as Any], applicationActivities: nil)
-            
+                        
             // Set the ConversationListViewModel as the delegate for the document picker
             let documentPicker = UIDocumentPickerViewController(forExporting: [jsonFileURL])
             documentPicker.delegate = self
