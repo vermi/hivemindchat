@@ -5,8 +5,8 @@ import KeychainSwift
 extension ConversationListView {
     func deleteConversation(at offsets: IndexSet) {
         let originalOffsets = offsets.map { indexedSortedConversations[$0].index }
-        viewModel.conversations.remove(atOffsets: IndexSet(originalOffsets))
-        DataManager.shared.saveConversationHistory(viewModel.conversations)
+        conversationListViewModel.conversations.remove(atOffsets: IndexSet(originalOffsets))
+        DataManager.shared.saveConversationHistory(conversationListViewModel.conversations)
         
         if let selectedConversationIndex = selectedConversationIndex,
            originalOffsets.contains(selectedConversationIndex) {
@@ -16,7 +16,7 @@ extension ConversationListView {
     }
     
     func loadConversationHistory() {
-        viewModel.conversations = DataManager.shared.loadConversationHistory()
+        conversationListViewModel.conversations = DataManager.shared.loadConversationHistory()
     }
     
     func getUserName() -> String {
@@ -36,7 +36,7 @@ extension ConversationListView {
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             if let textField = alertController.textFields?.first, let newTitle = textField.text, !newTitle.isEmpty {
                 conversation.wrappedValue.title = newTitle
-                DataManager.shared.saveConversationHistory(viewModel.conversations)
+                DataManager.shared.saveConversationHistory(conversationListViewModel.conversations)
                 loadConversationHistory()
             }
         }
@@ -88,14 +88,14 @@ extension ConversationListView {
                                                                              ))
         let newConversation = Conversation(title: conversationTitle, messages: [initialMessage])
         withAnimation {
-            viewModel.conversations.append(newConversation)
+            conversationListViewModel.conversations.append(newConversation)
             DispatchQueue.main.async {
-                selectedConversationIndex = viewModel.conversations.count - 1
+                selectedConversationIndex = conversationListViewModel.conversations.count - 1
             }
         }
     }
     
     func importConversationFromJSON() {
-        viewModel.importConversationFromJSON()
+        conversationListViewModel.importConversationFromJSON()
     }
 }

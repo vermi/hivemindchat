@@ -3,14 +3,15 @@ import OpenAISwift
 import KeychainSwift
 
 struct ConversationListView: View {
-    @StateObject var viewModel: ConversationListViewModel
+    @EnvironmentObject var conversationListViewModel: ConversationListViewModel // Add environment object here
+    
     @State var selectedConversationIndex: Int?
     @State var keychain = KeychainSwift()
     @State var isAPITokenAlertPresented: Bool = false
     @State var editedConversationIndex: Int?
     
     var indexedSortedConversations: [(index: Int, conversation: Conversation)] {
-        let sortedConversations = viewModel.conversations.enumerated().sorted { left, right in
+        let sortedConversations = conversationListViewModel.conversations.enumerated().sorted { left, right in
             if left.element.isFavorite != right.element.isFavorite {
                 return left.element.isFavorite
             } else if left.element.timestamp != right.element.timestamp {
@@ -22,111 +23,106 @@ struct ConversationListView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            List {
-                if viewModel.conversations.isEmpty {
-                    Text("No conversations yet. Why not start one?")
-                } else {
-                    ForEach(indexedSortedConversations, id: \.conversation.id) { indexedConversation in
-                        let originalIndex = indexedConversation.index
-                        let conversation = indexedConversation.conversation
-                        NavigationLink(destination: ChatView(conversations: $viewModel.conversations, selectedConversationIndex: originalIndex)) {
-                            HStack {
-                                Button(action: {
-                                    viewModel.conversations[originalIndex].isFavorite.toggle()
-                                    DataManager.shared.saveConversationHistory(viewModel.conversations)
-                                    loadConversationHistory()
-                                }) {
-                                    Image(systemName: conversation.isFavorite ? "star.fill" : "star")
-                                }
-                                .buttonStyle(StarButtonStyle(isFavorite: conversation.isFavorite))
-                                
-                                ConversationRow(conversation: conversation)
-                            }
-                        }
-                        .listRowSeparator(.hidden)
-                        .onChange(of: editedConversationIndex) { index in
-                            if let index = index {
-                                viewModel.conversations[index].objectWillChange.send()
-                                DataManager.shared.saveConversationHistory(viewModel.conversations)
-                            }
-                        }
-                        .tag(originalIndex)
-                        .contextMenu {
+        List {
+            if conversationListViewModel.conversations.isEmpty {
+                Text("No conversations yet. Why not start one?")
+            } else {
+                ForEach(indexedSortedConversations, id: \.conversation.id) { indexedConversation in
+                    let originalIndex = indexedConversation.index
+                    let conversation = indexedConversation.conversation
+                    NavigationLink(destination: ChatView(conversations: $conversationListViewModel.conversations, selectedConversationIndex: originalIndex)
+                        .environmentObject(conversationListViewModel)
+                    ) {
+                        HStack {
                             Button(action: {
-                                presentEditConversationTitleAlert(conversation: $viewModel.conversations[originalIndex])
+                                conversationListViewModel.conversations[originalIndex].isFavorite.toggle()
+                                DataManager.shared.saveConversationHistory(conversationListViewModel.conversations)
+                                loadConversationHistory()
                             }) {
-                                Text("Edit Title")
-                                Image(systemName: "pencil")
+                                Image(systemName: conversation.isFavorite ? "star.fill" : "star")
                             }
-                        }
-                        .onAppear {
-                            // Set the selectedConversationIndex when the NavigationLink appears
-                            selectedConversationIndex = originalIndex
+                            .buttonStyle(StarButtonStyle(isFavorite: conversation.isFavorite))
+                            
+                            ConversationRow(conversation: conversation)
                         }
                     }
-                    .onDelete(perform: deleteConversation)
-                    .onMove(perform: { indices, newOffset in
-                        viewModel.conversations.move(fromOffsets: indices, toOffset: newOffset)
-                        if let selectedConversationIndex = selectedConversationIndex,
-                           indices.contains(selectedConversationIndex) {
-                            // Update selectedConversationIndex if the selected conversation is moved
-                            let newSelectedIndex = selectedConversationIndex - indices.count + newOffset
-                            self.selectedConversationIndex = newSelectedIndex
+                    .listRowSeparator(.hidden)
+                    .onChange(of: editedConversationIndex) { index in
+                        if let index = index {
+                            conversationListViewModel.conversations[index].objectWillChange.send()
+                            DataManager.shared.saveConversationHistory(conversationListViewModel.conversations)
                         }
-                        DataManager.shared.saveConversationHistory(viewModel.conversations)
-                    })
-                }
-                
-            }
-            .id(UUID())
-            .alert(isPresented: $isAPITokenAlertPresented) {
-                Alert(
-                    title: Text("OpenAI API Token Required"),
-                    message: Text("Please enter your OpenAI API token in the Settings pane."),
-                    primaryButton: .default(Text("Go to Settings"), action: {
-                        showSettingsView()
-                    }),
-                    secondaryButton: .cancel()
-                )
-            }
-            .onAppear {
-                checkForOpenAIAPIToken()
-                loadConversationHistory()
-            }
-            .listStyle(PlainListStyle())
-            .navigationTitle("Conversations")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        showSettingsView()
-                    }) {
-                        Image(systemName: "gear")
                     }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
+                    .tag(originalIndex)
+                    .contextMenu {
                         Button(action: {
-                            createNewConversation()
+                            presentEditConversationTitleAlert(conversation: $conversationListViewModel.conversations[originalIndex])
                         }) {
-                            Text("New Conversation")
-                            Image(systemName: "square.and.pencil")
+                            Text("Edit Title")
+                            Image(systemName: "pencil")
                         }
-                        Button(action: {
-                            importConversationFromJSON()
-                        }) {
-                            Text("Import from JSON")
-                            Image(systemName: "square.and.arrow.down")
-                        }
-                    } label: {
-                        Image(systemName: "plus")
+                    }
+                    .onAppear {
+                        // Set the selectedConversationIndex when the NavigationLink appears
+                        selectedConversationIndex = originalIndex
                     }
                 }
+                .onDelete(perform: deleteConversation)
+                .onMove(perform: { indices, newOffset in
+                    conversationListViewModel.conversations.move(fromOffsets: indices, toOffset: newOffset)
+                    if let selectedConversationIndex = selectedConversationIndex,
+                       indices.contains(selectedConversationIndex) {
+                        // Update selectedConversationIndex if the selected conversation is moved
+                        let newSelectedIndex = selectedConversationIndex - indices.count + newOffset
+                        self.selectedConversationIndex = newSelectedIndex
+                    }
+                    DataManager.shared.saveConversationHistory(conversationListViewModel.conversations)
+                })
             }
-            .toolbarBackground(Color(.systemBackground), for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            
         }
+        .id(UUID())
+        .alert(isPresented: $isAPITokenAlertPresented) {
+            Alert(
+                title: Text("OpenAI API Token Required"),
+                message: Text("Please enter your OpenAI API token in the Settings pane."),
+                primaryButton: .default(Text("Go to Settings"), action: {
+                    showSettingsView()
+                }),
+                secondaryButton: .cancel()
+            )
+        }
+        .onAppear {
+            checkForOpenAIAPIToken()
+            loadConversationHistory()
+        }
+        .listStyle(PlainListStyle())
+        .navigationTitle("Conversations")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(
+            leading: Button(action: {
+                showSettingsView()
+            }) {
+                Image(systemName: "gear")
+            },
+            trailing: Menu {
+                Button(action: {
+                    createNewConversation()
+                }) {
+                    Text("New Conversation")
+                    Image(systemName: "square.and.pencil")
+                }
+                Button(action: {
+                    importConversationFromJSON()
+                }) {
+                    Text("Import from JSON")
+                    Image(systemName: "square.and.arrow.down")
+                }
+            } label: {
+                Image(systemName: "plus")
+            }
+        )
+        
     }
 }
