@@ -7,6 +7,7 @@ import MobileCoreServices
 
 struct ChatView: View {
     @Binding var conversations: [Conversation]
+    @EnvironmentObject var conversationListViewModel: ConversationListViewModel
     var selectedConversationIndex: Int
     
     @State var scrollPublisher = PassthroughSubject<Void, Never>()
@@ -85,10 +86,7 @@ struct ChatView: View {
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {}) {
-                    Image(systemName: "square.and.arrow.up")
-                }
-                .contextMenu {
+                Menu {
                     Button(action: {
                         shareConversationAsImage()
                     }) {
@@ -96,11 +94,13 @@ struct ChatView: View {
                         Image(systemName: "photo")
                     }
                     Button(action: {
-                        shareConversationAsJSON()
+                        conversationListViewModel.shareConversationAsJSON(selectedConversationIndex: selectedConversationIndex)
                     }) {
                         Text("Share as JSON")
                         Image(systemName: "doc.text")
                     }
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
                 }
             }
         }

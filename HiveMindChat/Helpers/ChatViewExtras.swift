@@ -117,40 +117,4 @@ extension ChatView {
             viewController.present(activityViewController, animated: true, completion: nil)
         }
     }
-    
-    func shareConversationAsJSON() {
-        let conversation = conversations[selectedConversationIndex]
-        
-        do {
-            let jsonData = try JSONEncoder().encode(conversation)
-            let jsonString = String(data: jsonData, encoding: .utf8)
-            guard let jsonFileURL = saveJSONStringToTemporaryFile(jsonString: jsonString, title: conversation.title) else { return }
-            
-            let itemProvider = NSItemProvider(contentsOf: jsonFileURL)
-            let activityViewController = UIActivityViewController(activityItems: [itemProvider as Any], applicationActivities: nil)
-            
-            if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-               let viewController = scene.windows.first?.rootViewController {
-                viewController.present(activityViewController, animated: true, completion: nil)
-            }
-        } catch {
-            print("Error encoding conversation to JSON: \(error)")
-        }
-    }
-    
-    func saveJSONStringToTemporaryFile(jsonString: String?, title: String) -> URL? {
-        guard let jsonString = jsonString else { return nil }
-        
-        let fileName = "\(title).hivemind"
-        let tempDirectory = FileManager.default.temporaryDirectory
-        let fileURL = tempDirectory.appendingPathComponent(fileName)
-        
-        do {
-            try jsonString.write(to: fileURL, atomically: true, encoding: .utf8)
-            return fileURL
-        } catch {
-            print("Error saving JSON to temporary file: \(error)")
-            return nil
-        }
-    }
 }

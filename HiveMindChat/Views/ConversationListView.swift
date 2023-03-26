@@ -107,10 +107,7 @@ struct ConversationListView: View {
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {}) {
-                        Image(systemName: "plus")
-                    }
-                    .contextMenu {
+                    Menu {
                         Button(action: {
                             createNewConversation()
                         }) {
@@ -123,6 +120,8 @@ struct ConversationListView: View {
                             Text("Import from JSON")
                             Image(systemName: "square.and.arrow.down")
                         }
+                    } label: {
+                        Image(systemName: "plus")
                     }
                 }
             }
