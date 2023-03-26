@@ -28,6 +28,8 @@
 		7443618029CAA48300C5782E /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7443617F29CAA48300C5782E /* KeychainSwift */; };
 		74C525A229CFAE41005C959C /* HiveMindUTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C525A129CFAE41005C959C /* HiveMindUTType.swift */; };
 		74C525A429CFAEF2005C959C /* ConversationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C525A329CFAEF2005C959C /* ConversationListViewModel.swift */; };
+		74FF41DA29CFDDC8005E7DB1 /* StoreObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FF41D929CFDDC8005E7DB1 /* StoreObserver.swift */; };
+		74FF41DC29CFE628005E7DB1 /* FirstRunView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74FF41DB29CFE628005E7DB1 /* FirstRunView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +55,8 @@
 		74C525A029CF79B1005C959C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		74C525A129CFAE41005C959C /* HiveMindUTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiveMindUTType.swift; sourceTree = "<group>"; };
 		74C525A329CFAEF2005C959C /* ConversationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewModel.swift; sourceTree = "<group>"; };
+		74FF41D929CFDDC8005E7DB1 /* StoreObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreObserver.swift; sourceTree = "<group>"; };
+		74FF41DB29CFE628005E7DB1 /* FirstRunView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstRunView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				7443615929CAA39B00C5782E /* APIInterface.swift */,
+				74FF41D929CFDDC8005E7DB1 /* StoreObserver.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -129,6 +134,7 @@
 				7443616029CAA39B00C5782E /* ChatView.swift */,
 				7443616129CAA39B00C5782E /* ContentView.swift */,
 				7443616229CAA39B00C5782E /* ConversationListView.swift */,
+				74FF41DB29CFE628005E7DB1 /* FirstRunView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -227,6 +233,7 @@
 				7443617929CAA39B00C5782E /* ChatViewExtras.swift in Sources */,
 				7443617129CAA39B00C5782E /* TypingIndicatorView.swift in Sources */,
 				7443617A29CAA39B00C5782E /* ConversationListViewExtras.swift in Sources */,
+				74FF41DA29CFDDC8005E7DB1 /* StoreObserver.swift in Sources */,
 				7443616A29CAA39B00C5782E /* CustomTextField.swift in Sources */,
 				7443617029CAA39B00C5782E /* SettingsView.swift in Sources */,
 				7443617429CAA39B00C5782E /* ChatView.swift in Sources */,
@@ -238,6 +245,7 @@
 				7443617629CAA39B00C5782E /* ConversationListView.swift in Sources */,
 				7443617529CAA39B00C5782E /* ContentView.swift in Sources */,
 				74C525A229CFAE41005C959C /* HiveMindUTType.swift in Sources */,
+				74FF41DC29CFE628005E7DB1 /* FirstRunView.swift in Sources */,
 				7443616B29CAA39B00C5782E /* IdentifiableChatMessage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

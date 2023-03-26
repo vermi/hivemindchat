@@ -1,8 +1,6 @@
 import SwiftUI
 import KeychainSwift
-
-import SwiftUI
-import KeychainSwift
+import StoreKit
 
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
@@ -10,7 +8,8 @@ struct SettingsView: View {
     @State private var openAIAPIToken: String = ""
     @State private var keychain = KeychainSwift()
     @State private var userName: String = UserDefaults.standard.string(forKey: "userName") ?? "User"
-
+    @StateObject private var storeObserver = StoreObserver()
+    
     var body: some View {
         VStack {
             RoundedRectangle(cornerRadius: 3)
@@ -31,6 +30,13 @@ struct SettingsView: View {
                             .disableAutocorrection(true)
                             .autocapitalization(.words)
                     }
+                    Section(header: Text("Tip the Developer")) {
+                        Button(action: {
+                            purchaseDonation()
+                        }){
+                            Text("Send a Tip for US$0.99")
+                        }
+                    }
                 }
                 .background(Color(.systemGroupedBackground).edgesIgnoringSafeArea(.bottom))
                 .navigationTitle("Settings")
@@ -41,9 +47,26 @@ struct SettingsView: View {
                 })
             }
         }
+        .onAppear {
+            SKPaymentQueue.default().add(storeObserver)
+        }
+        .onDisappear {
+            SKPaymentQueue.default().remove(storeObserver)
+        }
     }
     
     private func saveAPIToken() {
         keychain.set(openAIAPIToken, forKey: "openAIAPIToken")
     }
+    
+    private func purchaseDonation() {
+        // Replace "com.yourapp.donation" with the product identifier for your donation in-app purchase.
+        let productID = "com.afakecompany.hivemind.donation"
+        
+        // Fetch the product
+        let productRequest = SKProductsRequest(productIdentifiers: [productID])
+        productRequest.delegate = storeObserver
+        productRequest.start()
+    }
 }
+
