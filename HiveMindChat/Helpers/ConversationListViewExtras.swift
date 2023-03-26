@@ -5,8 +5,8 @@ import KeychainSwift
 extension ConversationListView {
     func deleteConversation(at offsets: IndexSet) {
         let originalOffsets = offsets.map { indexedSortedConversations[$0].index }
-        conversations.remove(atOffsets: IndexSet(originalOffsets))
-        DataManager.shared.saveConversationHistory(conversations)
+        viewModel.conversations.remove(atOffsets: IndexSet(originalOffsets))
+        DataManager.shared.saveConversationHistory(viewModel.conversations)
         
         if let selectedConversationIndex = selectedConversationIndex,
            originalOffsets.contains(selectedConversationIndex) {
@@ -16,7 +16,7 @@ extension ConversationListView {
     }
     
     func loadConversationHistory() {
-        conversations = DataManager.shared.loadConversationHistory()
+        viewModel.conversations = DataManager.shared.loadConversationHistory()
     }
     
     func getUserName() -> String {
@@ -36,7 +36,7 @@ extension ConversationListView {
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             if let textField = alertController.textFields?.first, let newTitle = textField.text, !newTitle.isEmpty {
                 conversation.wrappedValue.title = newTitle
-                DataManager.shared.saveConversationHistory(conversations)
+                DataManager.shared.saveConversationHistory(viewModel.conversations)
                 loadConversationHistory()
             }
         }
@@ -76,5 +76,26 @@ extension ConversationListView {
                 .opacity(configuration.isPressed ? 0.5 : 1.0)
                 .scaleEffect(configuration.isPressed ? 0.8 : 1.0)
         }
+    }
+    
+    func createNewConversation() {
+        let now = Date()
+        let dateFormatter = ISO8601DateFormatter()
+        let conversationTitle = "Text Chat " + dateFormatter.string(from: now)
+        let userName = getUserName()
+        let initialMessage = IdentifiableChatMessage(chatMessage: ChatMessage(role: .system, content: "You are HiveMind, an AI personal assistant designed to complement Siri by providing ideas, suggestions, and information where Siri's knowledge might fall short. You cannot access device files, send messages, set reminders, or interact with network or location services. If asked, kindly direct the user to Siri. Maintain a conversational, informal, respectful, cheerful, and helpful tone, prioritizing insightful and creative assistance. Address the user as \(userName) and greet them by name in your first message. Briefly explain your purpose and functionality without being overly verbose."
+                                                                              
+                                                                             ))
+        let newConversation = Conversation(title: conversationTitle, messages: [initialMessage])
+        withAnimation {
+            viewModel.conversations.append(newConversation)
+            DispatchQueue.main.async {
+                selectedConversationIndex = viewModel.conversations.count - 1
+            }
+        }
+    }
+    
+    func importConversationFromJSON() {
+        viewModel.importConversationFromJSON()
     }
 }

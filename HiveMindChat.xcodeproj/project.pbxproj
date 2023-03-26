@@ -26,6 +26,8 @@
 		7443617A29CAA39B00C5782E /* ConversationListViewExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443616729CAA39B00C5782E /* ConversationListViewExtras.swift */; };
 		7443617D29CAA47700C5782E /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7443617C29CAA47700C5782E /* OpenAISwift */; };
 		7443618029CAA48300C5782E /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7443617F29CAA48300C5782E /* KeychainSwift */; };
+		74C525A229CFAE41005C959C /* HiveMindUTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C525A129CFAE41005C959C /* HiveMindUTType.swift */; };
+		74C525A429CFAEF2005C959C /* ConversationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C525A329CFAEF2005C959C /* ConversationListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 		7443616729CAA39B00C5782E /* ConversationListViewExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationListViewExtras.swift; sourceTree = "<group>"; };
 		7443618129CAA67300C5782E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		74C525A029CF79B1005C959C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		74C525A129CFAE41005C959C /* HiveMindUTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiveMindUTType.swift; sourceTree = "<group>"; };
+		74C525A329CFAEF2005C959C /* ConversationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +105,7 @@
 				7443615229CAA39B00C5782E /* Conversation.swift */,
 				7443615329CAA39B00C5782E /* CustomTextField.swift */,
 				7443615429CAA39B00C5782E /* IdentifiableChatMessage.swift */,
+				74C525A329CFAEF2005C959C /* ConversationListViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -134,6 +139,7 @@
 				7443616529CAA39B00C5782E /* DataManager.swift */,
 				7443616629CAA39B00C5782E /* ChatViewExtras.swift */,
 				7443616729CAA39B00C5782E /* ConversationListViewExtras.swift */,
+				74C525A129CFAE41005C959C /* HiveMindUTType.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -224,12 +230,14 @@
 				7443616A29CAA39B00C5782E /* CustomTextField.swift in Sources */,
 				7443617029CAA39B00C5782E /* SettingsView.swift in Sources */,
 				7443617429CAA39B00C5782E /* ChatView.swift in Sources */,
+				74C525A429CFAEF2005C959C /* ConversationListViewModel.swift in Sources */,
 				7443617229CAA39B00C5782E /* ConversationRow.swift in Sources */,
 				7443616D29CAA39B00C5782E /* HiveMindChatApp.swift in Sources */,
 				7443616E29CAA39B00C5782E /* APIInterface.swift in Sources */,
 				7443616929CAA39B00C5782E /* Conversation.swift in Sources */,
 				7443617629CAA39B00C5782E /* ConversationListView.swift in Sources */,
 				7443617529CAA39B00C5782E /* ContentView.swift in Sources */,
+				74C525A229CFAE41005C959C /* HiveMindUTType.swift in Sources */,
 				7443616B29CAA39B00C5782E /* IdentifiableChatMessage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -372,7 +380,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.5;
+				MARKETING_VERSION = 1.7.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.afakecompany.HiveMindChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -402,7 +410,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.5;
+				MARKETING_VERSION = 1.7.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.afakecompany.HiveMindChat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

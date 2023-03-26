@@ -4,7 +4,7 @@ struct ContentView: View {
     @State private var conversations: [Conversation] = []
 
     var body: some View {
-        ConversationListView(conversations: $conversations)
+        ConversationListView(viewModel: ConversationListViewModel(conversations: conversations))
     }
 }
 
