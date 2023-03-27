@@ -9,6 +9,7 @@ struct ConversationListView: View {
     @State var keychain = KeychainSwift()
     @State var isAPITokenAlertPresented: Bool = false
     @State var editedConversationIndex: Int?
+    @State var isNewConversationLinkActive: Bool = false
     
     var indexedSortedConversations: [(index: Int, conversation: Conversation)] {
         let sortedConversations = conversationListViewModel.conversations.enumerated().sorted { left, right in
@@ -123,6 +124,10 @@ struct ConversationListView: View {
                 Image(systemName: "plus")
             }
         )
-        
+        .background(
+            NavigationLink("", destination: ChatView(conversations: $conversationListViewModel.conversations, selectedConversationIndex: conversationListViewModel.conversations.count - 1)
+                .environmentObject(conversationListViewModel), isActive: $isNewConversationLinkActive)
+            .opacity(0)
+        )
     }
 }
