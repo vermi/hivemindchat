@@ -90,7 +90,7 @@ extension ConversationListView {
         withAnimation {
             conversationListViewModel.conversations.append(newConversation)
             DispatchQueue.main.async {
-                selectedConversationIndex = conversationListViewModel.conversations.count - 1
+                isNewConversationLinkActive = true
             }
         }
     }
