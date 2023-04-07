@@ -10,7 +10,6 @@ struct ChatView: View {
     @EnvironmentObject var conversationListViewModel: ConversationListViewModel
     var selectedConversationIndex: Int
     
-    @State var scrollPublisher = PassthroughSubject<Void, Never>()
     @State var isTypingIndicatorVisible: Bool = true
     @State var messageInputHeight: CGFloat = 50
     @State var messageInput: String = ""
@@ -59,13 +58,10 @@ struct ChatView: View {
                         .padding(.top, 8) // Add padding to the top of the message list
                         .padding(.bottom, messageInputHeight + 16)
                         .background(Color(.systemBackground)) // Set the background color of the message list
-                }.onReceive(scrollPublisher, perform: { _ in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                        withAnimation {
-                            scrollViewProxy.scrollTo(conversations[selectedConversationIndex].messages.last?.id, anchor: .bottom)
-                        }
-                    }
-                })
+                }
+                .onChange(of: conversations[selectedConversationIndex].messages.count) {_ in
+                    scrollViewProxy.scrollTo(conversations[selectedConversationIndex].messages.count - 1)
+                }
             }
             
             HStack {
