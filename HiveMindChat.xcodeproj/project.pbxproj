@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7443616829CAA39B00C5782E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7443615029CAA39B00C5782E /* Assets.xcassets */; };
 		7443616929CAA39B00C5782E /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615229CAA39B00C5782E /* Conversation.swift */; };
-		7443616A29CAA39B00C5782E /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615329CAA39B00C5782E /* CustomTextField.swift */; };
 		7443616B29CAA39B00C5782E /* IdentifiableChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615429CAA39B00C5782E /* IdentifiableChatMessage.swift */; };
 		7443616D29CAA39B00C5782E /* HiveMindChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615729CAA39B00C5782E /* HiveMindChatApp.swift */; };
 		7443616E29CAA39B00C5782E /* APIInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615929CAA39B00C5782E /* APIInterface.swift */; };
@@ -26,6 +25,7 @@
 		7443617A29CAA39B00C5782E /* ConversationListViewExtras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443616729CAA39B00C5782E /* ConversationListViewExtras.swift */; };
 		7443617D29CAA47700C5782E /* OpenAISwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7443617C29CAA47700C5782E /* OpenAISwift */; };
 		7443618029CAA48300C5782E /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7443617F29CAA48300C5782E /* KeychainSwift */; };
+		747E763029E0C33700DBC91F /* SFSafariViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747E762F29E0C33700DBC91F /* SFSafariViewWrapper.swift */; };
 		74C525A229CFAE41005C959C /* HiveMindUTType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C525A129CFAE41005C959C /* HiveMindUTType.swift */; };
 		74C525A429CFAEF2005C959C /* ConversationListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C525A329CFAEF2005C959C /* ConversationListViewModel.swift */; };
 		74CFDAC629D0E6B3004A1ADE /* JSONActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74CFDAC529D0E6B3004A1ADE /* JSONActivityItemSource.swift */; };
@@ -37,7 +37,6 @@
 		7419225929CAA33A00154936 /* HiveMindChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiveMindChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7443615029CAA39B00C5782E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7443615229CAA39B00C5782E /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
-		7443615329CAA39B00C5782E /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		7443615429CAA39B00C5782E /* IdentifiableChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifiableChatMessage.swift; sourceTree = "<group>"; };
 		7443615729CAA39B00C5782E /* HiveMindChatApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HiveMindChatApp.swift; sourceTree = "<group>"; };
 		7443615929CAA39B00C5782E /* APIInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIInterface.swift; sourceTree = "<group>"; };
@@ -53,6 +52,7 @@
 		7443616629CAA39B00C5782E /* ChatViewExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewExtras.swift; sourceTree = "<group>"; };
 		7443616729CAA39B00C5782E /* ConversationListViewExtras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationListViewExtras.swift; sourceTree = "<group>"; };
 		7443618129CAA67300C5782E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		747E762F29E0C33700DBC91F /* SFSafariViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSafariViewWrapper.swift; sourceTree = "<group>"; };
 		74C525A029CF79B1005C959C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		74C525A129CFAE41005C959C /* HiveMindUTType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiveMindUTType.swift; sourceTree = "<group>"; };
 		74C525A329CFAEF2005C959C /* ConversationListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationListViewModel.swift; sourceTree = "<group>"; };
@@ -109,7 +109,6 @@
 			isa = PBXGroup;
 			children = (
 				7443615229CAA39B00C5782E /* Conversation.swift */,
-				7443615329CAA39B00C5782E /* CustomTextField.swift */,
 				7443615429CAA39B00C5782E /* IdentifiableChatMessage.swift */,
 				74C525A329CFAEF2005C959C /* ConversationListViewModel.swift */,
 			);
@@ -121,6 +120,7 @@
 			children = (
 				7443615929CAA39B00C5782E /* APIInterface.swift */,
 				74FF41D929CFDDC8005E7DB1 /* StoreObserver.swift */,
+				747E762F29E0C33700DBC91F /* SFSafariViewWrapper.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -237,13 +237,13 @@
 				7443617129CAA39B00C5782E /* TypingIndicatorView.swift in Sources */,
 				7443617A29CAA39B00C5782E /* ConversationListViewExtras.swift in Sources */,
 				74FF41DA29CFDDC8005E7DB1 /* StoreObserver.swift in Sources */,
-				7443616A29CAA39B00C5782E /* CustomTextField.swift in Sources */,
 				7443617029CAA39B00C5782E /* SettingsView.swift in Sources */,
 				7443617429CAA39B00C5782E /* ChatView.swift in Sources */,
 				74C525A429CFAEF2005C959C /* ConversationListViewModel.swift in Sources */,
 				7443617229CAA39B00C5782E /* ConversationRow.swift in Sources */,
 				7443616D29CAA39B00C5782E /* HiveMindChatApp.swift in Sources */,
 				7443616E29CAA39B00C5782E /* APIInterface.swift in Sources */,
+				747E763029E0C33700DBC91F /* SFSafariViewWrapper.swift in Sources */,
 				7443616929CAA39B00C5782E /* Conversation.swift in Sources */,
 				74CFDAC629D0E6B3004A1ADE /* JSONActivityItemSource.swift in Sources */,
 				7443617629CAA39B00C5782E /* ConversationListView.swift in Sources */,

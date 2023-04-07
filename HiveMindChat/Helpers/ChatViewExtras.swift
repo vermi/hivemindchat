@@ -92,7 +92,7 @@ extension ChatView {
             .joined(separator: " ")
 
         // Create a chat message for the caption prompt
-        let promptMessage = ChatMessage(role: .system, content: "The main topic of the following conversation is: \(conversationContent). Generate a concise and easy-to-understand title that summarizes the main topic of this conversation.")
+        let promptMessage = ChatMessage(role: .system, content: "The main topic of the following conversation is: \(conversationContent). Generate a concise (40 characters or fewer) and easy-to-understand title that summarizes the main topic of this conversation.")
 
         // Send the chat message to the OpenAISwift API
         Task.init {
