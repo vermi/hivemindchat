@@ -43,7 +43,6 @@ extension ChatView {
                         // Add the assistant's response to the conversation
                         conversations[selectedConversationIndex].messages.append(IdentifiableChatMessage(chatMessage: assistantMessage))
                         DataManager.shared.saveConversationHistory(conversations)
-                        scrollPublisher.send()
 
                         // Hide typing indicator
                         isTypingIndicatorVisible = false
@@ -61,7 +60,6 @@ extension ChatView {
                         // Add the assistant's response to the conversation
                         conversations[selectedConversationIndex].messages.append(IdentifiableChatMessage(chatMessage: assistantMessage))
                         DataManager.shared.saveConversationHistory(conversations)
-                        scrollPublisher.send()
 
                         // Hide typing indicator
                         isTypingIndicatorVisible = false
