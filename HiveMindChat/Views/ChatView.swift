@@ -14,15 +14,7 @@ struct ChatView: View {
     @State var messageInputHeight: CGFloat = 50
     @State var messageInput: String = ""
     @State var isInitialAssistantResponseFetched: Bool = false
-    
-    struct ViewHeightKey: PreferenceKey {
-        typealias Value = CGFloat
-        static var defaultValue: CGFloat = 0
-        
-        static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-            value = nextValue()
-        }
-    }
+    @State var scrollViewProxy: ScrollViewProxy? = nil
     
     var body: some View {
         VStack {
@@ -62,23 +54,22 @@ struct ChatView: View {
                 .onChange(of: conversations[selectedConversationIndex].messages.count) {_ in
                     scrollViewProxy.scrollTo(conversations[selectedConversationIndex].messages.count - 1)
                 }
+                .onAppear {
+                    self.scrollViewProxy = scrollViewProxy
+                }
             }
             
             HStack {
-                CustomTextField(text: $messageInput, placeholder: "HiveMind(model: \"gpt-3.5-turbo\")", onCommit: {
-                    sendMessage()
-                })
-                .onPreferenceChange(ViewHeightKey.self) { height in
-                    withAnimation {
-                        messageInputHeight = height >= 40 ? height : 40
-                    }
-                }
-                .frame(height: messageInputHeight) // Update the frame
-                .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
-                .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                .padding(.horizontal)
-                .disabled(!isInitialAssistantResponseFetched)
-            }.padding(.bottom)
+                TextField("HiveMind(model: \"gpt-3.5-turbo\")", text: $messageInput, axis: .vertical)
+                    .padding(EdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4))
+                    .lineLimit(...10)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal)
+                    .disabled(!isInitialAssistantResponseFetched)
+                    .submitLabel(.send)
+                    .onSubmit { sendMessage() }
+            }
+            .padding(.bottom)
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -111,6 +102,12 @@ struct ChatView: View {
                 } else {
                     isInitialAssistantResponseFetched = true
                     isTypingIndicatorVisible = false
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    if let lastIndex = conversations[selectedConversationIndex].messages.indices.last {
+                        scrollViewProxy?.scrollTo(lastIndex, anchor: .bottom)
+                    }
                 }
             }
         }

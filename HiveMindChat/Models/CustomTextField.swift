@@ -1,69 +1,29 @@
-// CustomTextField.swift
-
 import SwiftUI
-import UIKit
 
-struct CustomTextField: UIViewRepresentable {
+struct CustomTextField: View {
     @Binding var text: String
     var placeholder: String
-    var onCommit: () -> Void
+    var onSubmit: () -> Void
+    var axis: Axis = .horizontal
+    var lineLimitRange: ClosedRange<Int> = 1...1
     
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self, onCommit: onCommit)
-    }
-    
-    func makeUIView(context: Context) -> UITextView {
-        let textView = UITextView()
-        textView.delegate = context.coordinator
-        textView.text = text
-        textView.isScrollEnabled = true
-        textView.alwaysBounceVertical = false
-        textView.font = UIFont.systemFont(ofSize: 16)
-        textView.backgroundColor = UIColor.systemBackground
-        textView.textContainerInset = UIEdgeInsets(top: 12, left: 4, bottom: 12, right: 4) // Update this line
-        textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0) // Update this line
-        
-        // Update the placeholder label frame
-        let placeholderLabel = UILabel()
-        placeholderLabel.text = placeholder
-        placeholderLabel.font = UIFont.systemFont(ofSize: 16)
-        placeholderLabel.textColor = UIColor.lightGray
-        placeholderLabel.tag = 100
-        placeholderLabel.frame = CGRect(x: 8, y: 8, width: textView.bounds.width - 16, height: 25) // Update this line to set the frame
-        textView.addSubview(placeholderLabel)
-        textView.setValue(placeholderLabel, forKey: "placeholderLabel")
-        textView.returnKeyType = .send
-        
-        return textView
-    }
-    
-    func updateUIView(_ uiView: UITextView, context: Context) {
-        uiView.text = text
-    }
-    
-    class Coordinator: NSObject, UITextViewDelegate {
-        var parent: CustomTextField
-        var onCommit: () -> Void
-        
-        init(_ parent: CustomTextField, onCommit: @escaping () -> Void) {
-            self.parent = parent
-            self.onCommit = onCommit
-        }
-        
-        func textViewDidChange(_ textView: UITextView) {
-            parent.text = textView.text
-            
-            let placeholderLabel = textView.viewWithTag(100) as? UILabel
-            placeholderLabel?.isHidden = !textView.text.isEmpty
-        }
-        
-        func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-            if text == "\n" {
-                textView.resignFirstResponder()
-                onCommit()
-                return false
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                if text.isEmpty {
+                    Text(placeholder)
+                        .foregroundColor(.gray)
+                        .offset(y: (geometry.size.height - geometry.size.height / 2) / 2)
+                }
+                
+                TextField("", text: $text, axis: axis)
+                    .lineLimit(lineLimitRange)
+                    .padding(.top, (geometry.size.height - geometry.size.height / 2) / 2)
+                    .padding(.bottom, (geometry.size.height - geometry.size.height / 2) / 2)
+                    .onSubmit(onSubmit)
+                    .textFieldStyle(.roundedBorder)
             }
-            return true
         }
+        .padding()
     }
 }
