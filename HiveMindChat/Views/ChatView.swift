@@ -67,7 +67,13 @@ struct ChatView: View {
                     .padding(.horizontal)
                     .disabled(!isInitialAssistantResponseFetched)
                     .submitLabel(.send)
-                    .onSubmit { sendMessage() }
+                    .onSubmit(sendMessage)
+                    .onChange(of: messageInput) { newValue in
+                        if let last = newValue.last, last == "\n" {
+                            messageInput.removeLast()
+                            sendMessage()
+                        }
+                    }
             }
             .padding(.bottom)
         }
