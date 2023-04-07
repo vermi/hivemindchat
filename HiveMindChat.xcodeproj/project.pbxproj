@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		7443616829CAA39B00C5782E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7443615029CAA39B00C5782E /* Assets.xcassets */; };
 		7443616929CAA39B00C5782E /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615229CAA39B00C5782E /* Conversation.swift */; };
-		7443616A29CAA39B00C5782E /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615329CAA39B00C5782E /* CustomTextField.swift */; };
 		7443616B29CAA39B00C5782E /* IdentifiableChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615429CAA39B00C5782E /* IdentifiableChatMessage.swift */; };
 		7443616D29CAA39B00C5782E /* HiveMindChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615729CAA39B00C5782E /* HiveMindChatApp.swift */; };
 		7443616E29CAA39B00C5782E /* APIInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7443615929CAA39B00C5782E /* APIInterface.swift */; };
@@ -38,7 +37,6 @@
 		7419225929CAA33A00154936 /* HiveMindChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HiveMindChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7443615029CAA39B00C5782E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7443615229CAA39B00C5782E /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
-		7443615329CAA39B00C5782E /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		7443615429CAA39B00C5782E /* IdentifiableChatMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IdentifiableChatMessage.swift; sourceTree = "<group>"; };
 		7443615729CAA39B00C5782E /* HiveMindChatApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HiveMindChatApp.swift; sourceTree = "<group>"; };
 		7443615929CAA39B00C5782E /* APIInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIInterface.swift; sourceTree = "<group>"; };
@@ -111,7 +109,6 @@
 			isa = PBXGroup;
 			children = (
 				7443615229CAA39B00C5782E /* Conversation.swift */,
-				7443615329CAA39B00C5782E /* CustomTextField.swift */,
 				7443615429CAA39B00C5782E /* IdentifiableChatMessage.swift */,
 				74C525A329CFAEF2005C959C /* ConversationListViewModel.swift */,
 			);
@@ -240,7 +237,6 @@
 				7443617129CAA39B00C5782E /* TypingIndicatorView.swift in Sources */,
 				7443617A29CAA39B00C5782E /* ConversationListViewExtras.swift in Sources */,
 				74FF41DA29CFDDC8005E7DB1 /* StoreObserver.swift in Sources */,
-				7443616A29CAA39B00C5782E /* CustomTextField.swift in Sources */,
 				7443617029CAA39B00C5782E /* SettingsView.swift in Sources */,
 				7443617429CAA39B00C5782E /* ChatView.swift in Sources */,
 				74C525A429CFAEF2005C959C /* ConversationListViewModel.swift in Sources */,
