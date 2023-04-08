@@ -100,6 +100,10 @@ extension ChatView {
                 var caption = captionMessage.content.trimmingCharacters(in: .whitespacesAndNewlines)
                 caption = caption.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
 
+                // Trim punctuation as well
+                let punctuation = CharacterSet.punctuationCharacters
+                caption = caption.trimmingCharacters(in: punctuation)
+
                 DispatchQueue.main.async {
                     // Set the conversation title.
                     conversations[selectedConversationIndex].title = caption
