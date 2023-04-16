@@ -9,7 +9,7 @@ struct TypingIndicatorView: View {
                 Circle()
                     .frame(width: 8, height: 8)
                     .foregroundColor(Color.gray)
-                    .scaleEffect(index == 0 ? scale : 1)
+                    .scaleEffect(scale)
                     .animation(Animation.easeInOut(duration: 0.5).repeatForever().delay(Double(index) * 0.2), value: scale)
             }
         }.onAppear {
